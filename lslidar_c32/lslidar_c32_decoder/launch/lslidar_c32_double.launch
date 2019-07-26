@@ -1,0 +1,49 @@
+<launch>
+
+  <node pkg="lslidar_c32_driver" type="lslidar_c32_driver_node" name="leishen_lslidar_c32_driver_node" output="screen" ns="LeftLidar">
+    <param name="frame_id" value="laser_link_left"/>
+    <param name="device_ip" value="192.168.1.200"/>
+    <param name="device_port" value="2368"/>
+    <param name="use_gps" value="false"/>
+  </node>
+
+  <node pkg="lslidar_c32_decoder" type="lslidar_c32_decoder_node" name="leishen_lslidar_c32_decoder_node" output="screen" ns="LeftLidar">
+    <param name="child_frame_id" value="laser_link_left"/>
+    <remap from="/point_raw" to="point_raw"/>
+    <param name="point_num" value="2000"/>
+    <param name="channel_num" value="8"/>
+    <param name="angle_disable_min" value="0"/>
+    <param name="angle_disable_max" value="0"/>
+    <param name="min_range" value="0.15"/>
+    <param name="max_range" value="150.0"/>
+    <param name="frequency" value="10.0"/>
+    <param name="publish_point_cloud" value="true"/>
+    <param name="publish_channels" value="true"/>
+  </node>
+  
+  
+  <node pkg="lslidar_c32_driver" type="lslidar_c32_driver_node" name="lslidar_c32_driver_node" output="screen" ns="RightLidar">
+    <param name="frame_id" value="laser_link_right"/>
+    <param name="device_ip" value="192.168.1.201"/>
+    <param name="device_port" value="2362"/>
+    <param name="use_gps" value="false"/>
+  </node>
+
+  <node pkg="lslidar_c32_decoder" type="lslidar_c32_decoder_node" name="lslidar_c32_decoder_node" output="screen" ns="RightLidar">
+    <param name="child_frame_id" value="laser_link_right"/>
+    <remap from="/point_raw" to="point_raw"/>
+    <param name="point_num" value="2000"/>
+    <param name="channel_num" value="8"/>
+    <param name="angle_disable_min" value="0"/>
+    <param name="angle_disable_max" value="0"/>
+    <param name="min_range" value="0.15"/>
+    <param name="max_range" value="150.0"/>
+    <param name="frequency" value="10.0"/>
+    <param name="publish_point_cloud" value="true"/>
+    <param name="publish_channels" value="true"/>
+  </node>
+
+  <node pkg="tf" type="static_transform_publisher" name="base_link2laser" args="0 0 0 0 0 0 world laser_link_right 100" />
+  <node pkg="tf" type="static_transform_publisher" name="base_link2laser2" args="0 0 10 0 0 0 world laser_link_left 100" />
+</launch>
+
